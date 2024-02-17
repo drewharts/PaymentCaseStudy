@@ -1,5 +1,5 @@
 # PaymentCaseStudy
-
+## Directions (as given by recruiter)
 - Imports the most recent year's data
 - Checks regularly to get the most recent updates
 - Build a search tool with a typeahead that returns all relevant data

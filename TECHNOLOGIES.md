@@ -1,0 +1,3 @@
+# Technologies Used
+## Flask
+## PostGreSQL
