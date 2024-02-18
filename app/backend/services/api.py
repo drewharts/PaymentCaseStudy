@@ -1,4 +1,7 @@
 import requests
+"""
+Grabs download url, data title, date posted, and date updated from API
+"""
 
 def fetch_csv_download_url(api_endpont):
     try:
@@ -26,7 +29,10 @@ def fetch_csv_download_url(api_endpont):
         print("data title: ",data_title)
         print("date issued: ",date_issued)
         print("date last modified: ",date_last_modified)
+        return download_url
     except requests.RequestException as e:
         print(f"Error grabbing download information: {e}")
+
+
 
         

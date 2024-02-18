@@ -9,6 +9,12 @@ There are two publications every year. There is the initial data and then a refr
 ## Strategy
 Given that the data is so large, we need a way to process efficiently. The best way to do this is to process in batches and incrementally insert into SQL database.
 
+### Steps to success
+1. Check if there is exisiting database
+2. (yes) pull last updated date from API, if last updated date doesn't match API pull, update information
+3. (no) create database and table with exisiting postgreSQL schema
+    3a. Stream csv data and insert into database in batches
+    3b. Updated time table was just updated
 
 ## Focus
 I will first work on General Payments as it is the largest and most comprehesive. I will develop it with the idea that we can add Research Payments and Physician Payments in easily later. When the yearly refresh happens, we obviously will want to pull the changes and check for when that refresh happens.
