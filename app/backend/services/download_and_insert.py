@@ -15,6 +15,10 @@ COLUMN_LENGTHS = {
     'column_name_2': 255,
 }
 
+"""
+Begins csv download using Python requests, it will then batch downloading data and send to insertion function
+"""
+
 def download_and_batch_insert(url, encoding='utf-8'):
     try:
         # Connect to the PostgreSQL database
@@ -62,6 +66,10 @@ def download_and_batch_insert(url, encoding='utf-8'):
         cursor.close()
         conn.close()
 
+
+"""
+Inserts data from batch provided by download_and_batch_insert into the table
+"""
 def insert_batch(cursor, headers, batch, column_lengths):
     for row in batch:
         # Validate row against column lengths
