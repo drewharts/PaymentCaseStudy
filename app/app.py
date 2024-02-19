@@ -11,7 +11,7 @@ import os
 
 def create_app():
     load_dotenv()
-    app = Flask(__name__, template_folder='app/frontend/templates')
+    app = Flask(__name__, template_folder='frontend/templates')
 
     #check to make sure database and table exist, if not create them
     if not check_or_create_database():
