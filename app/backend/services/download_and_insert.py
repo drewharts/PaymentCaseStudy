@@ -6,10 +6,8 @@ import os
 from elasticsearch import Elasticsearch, helpers
 from app.backend.services.get_db_connection import get_db_connection
 from app.backend.services.search_indexing import create_elasticsearch_index
-import time
-
 # Define the batch size for processing
-BATCH_SIZE = 1000
+BATCH_SIZE = 1
 MAX_ROWS_FOR_TESTING = 10
 
 # Placeholder for column length constraints
@@ -18,20 +16,12 @@ COLUMN_LENGTHS = {
     'column_name_2': 255,
 }
 
-#Elastic Search Client
-es = Elasticsearch(
-    hosts=["elasticsearch:9200"]
-)
-time.sleep(5);
-#create elasticsearch index
-create_elasticsearch_index(es)
-
 
 """
 Begins csv download using Python requests, it will then batch downloading data and send to insertion function
 """
 
-def download_and_batch_insert(url, encoding='utf-8'):
+def download_and_batch_insert(url, es, encoding='utf-8'):
     try:
         # Connect to the PostgreSQL database
         conn = get_db_connection()
@@ -58,7 +48,7 @@ def download_and_batch_insert(url, encoding='utf-8'):
                     row_count += 1
                     if len(batch) >= BATCH_SIZE:
                         insert_batch(cursor, headers, batch, COLUMN_LENGTHS)
-                        es_index_batch(batch)  # Index batch to Elasticsearch
+                        es_index_batch(batch,es)  # Index batch to Elasticsearch
                         batch = []  # Reset batch after insertion
                         conn.commit()
                     if row_count >= MAX_ROWS_FOR_TESTING:
@@ -106,25 +96,21 @@ def insert_batch(cursor, headers, batch, column_lengths):
 """
 Takes each batch and sends to Elastic Search
 """
-def es_index_batch(batch):
+def es_index_batch(batch,es):
+    print(batch)
     # Prepare actions for the Bulk API
     actions = [
         {
             "_index": "general_payments_index",
             "_id": doc['Record_ID'],  # Use the unique identifier for each document
-            "_source": {
-                "recipient_name": f"{doc.get('Covered_Recipient_First_Name', '')} {doc.get('Covered_Recipient_Last_Name', '')}",
-                "recipient_location": f"{doc.get('Recipient_City', '')}, {doc.get('Recipient_State', '')}, {doc.get('Recipient_Country', '')}",
-                "hospital_name": doc.get('Teaching_Hospital_Name', ''),
-                "manufacturer_name": doc.get('Applicable_Manufacturer_or_Applicable_GPO_Making_Payment_Name', ''),
-                "product_name": doc.get('Name_of_Drug_or_Biological_or_Device_or_Medical_Supply_1', '')  # Adjust as necessary
-                # Add more fields from doc as necessary
-            }
+            "_source": doc  # Use the entire document as the source
         }
         for doc in batch
     ]
     
     try:
         helpers.bulk(es, actions)
+        print("Batch indexed successfully.")
     except Exception as e:
         print(f"Error indexing batch in Elasticsearch: {e}")
+

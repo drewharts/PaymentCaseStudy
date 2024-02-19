@@ -11,17 +11,15 @@ def search():
     # Get the query from the request parameters
     query = request.args.get('query')
 
-    # Perform Elasticsearch search with query in the request body
+    # Perform Elasticsearch multi-match query
     res = es_search.search(
         index="general_payments_index",
         body={
             "query": {
-                "match_phrase_prefix": {
-                    "recipient_name": {
-                        "query": query,
-                        "slop": 10,
-                        "max_expansions": 50
-                    }
+                "multi_match": {
+                    "query": query,
+                    "type": "best_fields",
+                    "fields": ["*"]  # Match on all fields
                 }
             }
         }
