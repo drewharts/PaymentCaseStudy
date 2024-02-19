@@ -1,11 +1,14 @@
 import os
 import psycopg2
-"""
-Grabs connection with environment variables for best practice
-"""
-def get_db_connection():
+
+def get_db_connection(default=False):
+    if default:
+        dbname = 'postgres'
+    else:
+        dbname = os.getenv('DB_NAME', 'payments')
+        
     conn = psycopg2.connect(
-        dbname=os.getenv('DB_NAME', 'payments'),
+        dbname=dbname,
         user=os.getenv('DB_USER', 'postgres'),
         password=os.getenv('DATABASE_PASSWORD', 'password'), 
         host=os.getenv('DB_HOST', 'db'),
