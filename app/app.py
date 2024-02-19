@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from app.backend.services.api import fetch_csv_download_url
 from app.backend.services.database_creation import check_or_create_database
 from app.backend.services.download_and_insert import download_and_batch_insert
+from app.frontend.search import search_bp
 import psycopg2
 from dotenv import load_dotenv
 import os
@@ -12,6 +13,7 @@ import os
 def create_app():
     load_dotenv()
     app = Flask(__name__, template_folder='frontend/templates')
+
 
     #check to make sure database and table exist, if not create them
     if not check_or_create_database():
@@ -24,9 +26,13 @@ def create_app():
         #check to see if database is updated
         print("Checking if database is updated")
 
+    # Register the search blueprint
+    app.register_blueprint(search_bp)
+
     @app.route('/')
     def home():
         return render_template('index.html')
+    
 
     return app
 

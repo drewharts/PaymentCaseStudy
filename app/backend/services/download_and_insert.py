@@ -5,10 +5,12 @@ from psycopg2 import extras
 import os
 from elasticsearch import Elasticsearch, helpers
 from app.backend.services.get_db_connection import get_db_connection
+from app.backend.services.search_indexing import create_elasticsearch_index
+import time
 
 # Define the batch size for processing
 BATCH_SIZE = 1000
-MAX_ROWS_FOR_TESTING = 100
+MAX_ROWS_FOR_TESTING = 10
 
 # Placeholder for column length constraints
 COLUMN_LENGTHS = {
@@ -18,9 +20,11 @@ COLUMN_LENGTHS = {
 
 #Elastic Search Client
 es = Elasticsearch(
-    hosts=["localhost:9200"],
-    http_auth=('username', 'password')
+    hosts=["elasticsearch:9200"]
 )
+time.sleep(5);
+#create elasticsearch index
+create_elasticsearch_index(es)
 
 
 """
