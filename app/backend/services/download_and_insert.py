@@ -2,10 +2,10 @@ import csv
 import requests
 import psycopg2
 from psycopg2 import extras
-import os
-from elasticsearch import Elasticsearch, helpers
+from elasticsearch import helpers
 from app.backend.services.get_db_connection import get_db_connection
-from app.backend.services.search_indexing import create_elasticsearch_index
+
+
 # Define the batch size for processing
 BATCH_SIZE = 1
 MAX_ROWS_FOR_TESTING = 10
@@ -96,14 +96,27 @@ def insert_batch(cursor, headers, batch, column_lengths):
 """
 Takes each batch and sends to Elastic Search
 """
-def es_index_batch(batch,es):
-    print(batch)
-    # Prepare actions for the Bulk API
+
+def es_index_batch(batch, es):
+    # selected based on what I thought people would be searching for the most
+    selected_fields = [
+        'Covered_Recipient_Profile_ID', 'Covered_Recipient_NPI',
+        'Covered_Recipient_First_Name', 'Covered_Recipient_Middle_Name', 'Covered_Recipient_Last_Name',
+        'Recipient_Primary_Business_Street_Address_Line1', 'Recipient_City', 'Recipient_State', 'Recipient_Zip_Code', 'Recipient_Country',
+        'Covered_Recipient_Specialty_1',
+        'Total_Amount_of_Payment_USDollars', 'Date_of_Payment',
+        'Form_of_Payment_or_Transfer_of_Value', 'Nature_of_Payment_or_Transfer_of_Value',
+        'Submitting_Applicable_Manufacturer_or_Applicable_GPO_Name',
+        'Physician_Ownership_Indicator', 'Contextual_Information',
+        'Record_ID', 'Program_Year', 'Payment_Publication_Date'
+    ]
+
+    # prepare actions for the Bulk API, only include selected fields
     actions = [
         {
             "_index": "general_payments_index",
-            "_id": doc['Record_ID'],  # Use the unique identifier for each document
-            "_source": doc  # Use the entire document as the source
+            "_id": doc['Record_ID'],  # unique identifier for each document
+            "_source": {field: doc[field] for field in selected_fields if field in doc}  # Include only selected fields
         }
         for doc in batch
     ]
@@ -113,4 +126,5 @@ def es_index_batch(batch,es):
         print("Batch indexed successfully.")
     except Exception as e:
         print(f"Error indexing batch in Elasticsearch: {e}")
+
 
