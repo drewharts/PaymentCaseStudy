@@ -2,8 +2,9 @@ import csv
 import requests
 import psycopg2
 from psycopg2 import extras
-from config import DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT
+import os
 from elasticsearch import Elasticsearch, helpers
+from app.backend.services.get_db_connection import get_db_connection
 
 # Define the batch size for processing
 BATCH_SIZE = 1000
@@ -29,11 +30,7 @@ Begins csv download using Python requests, it will then batch downloading data a
 def download_and_batch_insert(url, encoding='utf-8'):
     try:
         # Connect to the PostgreSQL database
-        conn = psycopg2.connect(
-            dbname=DB_NAME,
-            host=DB_HOST,
-            port=DB_PORT
-        )
+        conn = get_db_connection()
         # Disable autocommit for batch transaction
         conn.autocommit = False
         cursor = conn.cursor()
