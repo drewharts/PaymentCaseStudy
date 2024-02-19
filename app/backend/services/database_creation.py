@@ -10,10 +10,11 @@ Connect to default "postgres" database and check if payments database exists. If
 """
 def check_or_create_database():
     try:
-        conn = get_db_connection()
+        conn = get_db_connection(True)
         conn.autocommit = True
         cursor = conn.cursor()
 
+        #checking if payments database exists
         cursor.execute("SELECT 1 FROM pg_database WHERE datname = %s;", ('payments',))
         database_exists = cursor.fetchone()
 

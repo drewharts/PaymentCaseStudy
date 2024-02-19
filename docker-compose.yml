@@ -16,7 +16,6 @@ services:
       DATABASE_HOST: ${DB_HOST}
       DATABASE_USER: ${DB_USER}
       DATABASE_NAME: ${DB_NAME}
-      # DATABASE_PASSWORD: yourdbpassword  # Uncomment and set your password if needed
       ELASTICSEARCH_HOST: elasticsearch  # Use the service name as the host for Elasticsearch connections
     networks:
       - app-network

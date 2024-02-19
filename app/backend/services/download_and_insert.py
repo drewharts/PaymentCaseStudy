@@ -80,7 +80,7 @@ Inserts data from batch provided by download_and_batch_insert into the table
 def insert_batch(cursor, headers, batch, column_lengths):
     for row in batch:
         # Validate row against column lengths
-        for i, value in enumerate(row):
+        for i, value in enumerate(row.values()):
             header = headers[i]
             max_length = column_lengths.get(header)
             if max_length and len(value) > max_length:
@@ -90,11 +90,14 @@ def insert_batch(cursor, headers, batch, column_lengths):
     # If all rows are valid, execute batch insert
     columns = ', '.join(headers)
     placeholders = ', '.join(['%s'] * len(headers))
+    values = [tuple(row.get(header) for header in headers) for row in batch]
+
     sql = f"INSERT INTO general_payments ({columns}) VALUES ({placeholders})"
     try:
-        extras.execute_batch(cursor, sql, batch)
+        extras.execute_batch(cursor, sql, values)
     except psycopg2.Error as e:
         print(f"Database error during batch insert: {e}")
+
 
 """
 Takes each batch and sends to Elastic Search
