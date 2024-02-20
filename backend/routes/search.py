@@ -1,7 +1,6 @@
 from flask import Blueprint, request, jsonify
 from elasticsearch import Elasticsearch
 
-
 search_bp = Blueprint('search', __name__)
 
 # Initialize Elasticsearch client
@@ -28,6 +27,10 @@ def search():
 
     # Extract relevant information from search results
     hits = res['hits']['hits']
-    suggestions = [{'name': hit['_source']['Covered_Recipient_First_Name']} for hit in hits]
+    suggestions = [{
+        'first_name': hit['_source'].get('Covered_Recipient_First_Name', 'N/A'),  # Using .get for safe access
+        'last_name': hit['_source'].get('Covered_Recipient_Last_Name', 'N/A'),
+        'hospital_name': hit['_source'].get('Total_Amount_of_Payment_USDollars', 'N/A')
+    } for hit in hits]
 
     return jsonify(suggestions)
