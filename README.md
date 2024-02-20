@@ -11,11 +11,11 @@
 
 - Run using docker so make sure you have Docker and Docker Compose
 
-- Once you have docker and project open run 'docker-compose up -d --build'
+- Once you have docker and project open run *docker-compose up -d --build*
 
 - Navigate to http://localhost:3000
 
-- You can shutdown containers afterwards with 'docker compose down'
+- You can shutdown containers afterwards with *docker compose down*
 
 ## What I'd do without a 2.5 day time constraint:
 
