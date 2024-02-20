@@ -1,8 +1,5 @@
-import csv
-import requests
 from io import StringIO
 import psycopg2
-import os
 from services.get_db_connection import get_db_connection
 
 """

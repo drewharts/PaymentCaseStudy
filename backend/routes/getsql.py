@@ -6,7 +6,6 @@ import os
 
 getsql_bp = Blueprint('data',__name__)
 
-# Example endpoint
 @getsql_bp.route('/get-details', methods=['GET'])
 def get_details():
     unique_id = str(request.args.get('id'))

@@ -22,7 +22,7 @@ def create_app():
     app.register_blueprint(getsql_bp,url_prefix='/data')
 
     CORS(app)
-    #Elastic Search Client
+    
     es = Elasticsearch(
         hosts=["elasticsearch:9200"]
     )

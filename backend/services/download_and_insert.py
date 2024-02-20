@@ -5,7 +5,6 @@ from psycopg2 import extras
 from elasticsearch import helpers
 from services.get_db_connection import get_db_connection
 from services.search_indexing import create_elasticsearch_index
-import os
 
 # Define the batch size for processing
 BATCH_SIZE = 5000

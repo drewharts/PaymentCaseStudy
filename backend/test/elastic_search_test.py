@@ -1,11 +1,10 @@
 from elasticsearch import Elasticsearch
 
-# Initialize Elasticsearch client
 es = Elasticsearch(["localhost:9200"])
 
 def check_elasticsearch_data():
     try:
-        # Search for documents in the specified index
+        # search for documents in the specified index
         res = es.search(index="general_payments_index", size=10)  # Adjust size as needed
         hits = res['hits']['hits']
 

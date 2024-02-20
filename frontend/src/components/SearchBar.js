@@ -65,7 +65,7 @@ const SearchBar = () => {
                     <Typography variant="subtitle1">{suggestion.first_name} {suggestion.middle_name} {suggestion.last_name}</Typography>
                   </Grid>
                   <Grid item xs={12}>
-                  {/* Check if highlight exists and has at least one field */}
+                  {/* check if there is a highlight and has at least one field */}
                   {suggestion.highlight && Object.keys(suggestion.highlight).length > 0 && (
                     <div 
                       dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(suggestion.highlight[Object.keys(suggestion.highlight)[0]]) }}
