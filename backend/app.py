@@ -29,11 +29,7 @@ def create_app():
     es = Elasticsearch(
         hosts=["elasticsearch:9200"]
     )
-    #time for creation
-    time.sleep(5)
-    #create elasticsearch index
-    create_elasticsearch_index(es)
-
+    
 
     #check to make sure database and table exist, if not create them
     if not check_or_create_database():
