@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Typography, Box, TextField, List, ListItem, Paper,Grid, Stack } from '@mui/material';
 import ExportButton from './ExportButton';
+import DOMPurify from 'dompurify';
 
 const SearchBar = () => {
   const [query, setQuery] = useState('');
@@ -48,7 +49,7 @@ const SearchBar = () => {
           label="Search payment"
           value={query}
           onChange={handleInputChange}
-          fullWidth // TextField takes the full width
+          fullWidth 
         />
         {selectedId && <ExportButton selectedId={selectedId} />}
 
@@ -62,6 +63,15 @@ const SearchBar = () => {
                 <Grid container spacing={2}>
                   <Grid item xs={12}>
                     <Typography variant="subtitle1">{suggestion.first_name} {suggestion.middle_name} {suggestion.last_name}</Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                  {/* Check if highlight exists and has at least one field */}
+                  {suggestion.highlight && Object.keys(suggestion.highlight).length > 0 && (
+                    <div 
+                      dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(suggestion.highlight[Object.keys(suggestion.highlight)[0]]) }}
+                      style={{ textShadow: '0 0 5px yellow' }}
+                    />
+                  )}
                   </Grid>
                   <Grid item xs={12}>
                     <Typography variant="body2" color="textSecondary">Amount: ${suggestion.amount}</Typography>

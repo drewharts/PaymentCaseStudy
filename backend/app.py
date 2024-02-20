@@ -1,15 +1,12 @@
 from flask import Flask, render_template
-from flask_sqlalchemy import SQLAlchemy
 from services.api import fetch_csv_download_url
 from services.database_creation import check_or_create_database
 from services.download_and_insert import download_and_batch_insert
-from services.search_indexing import create_elasticsearch_index
 from routes.search import search_bp
 from routes.getsql import getsql_bp
 from dotenv import load_dotenv
 import os
 from elasticsearch import Elasticsearch
-import time
 from flask_cors import CORS
 
 
