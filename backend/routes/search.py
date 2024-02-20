@@ -1,9 +1,8 @@
 from flask import Blueprint, request, jsonify
 from elasticsearch import Elasticsearch
-from flask_cors import CORS
+
 
 search_bp = Blueprint('search', __name__)
-CORS(search_bp, resources={r"/search": {"origins": "*"}})  # Allow requests from any origin for the /search endpoint
 
 # Initialize Elasticsearch client
 es_search = Elasticsearch(["elasticsearch:9200"])
@@ -29,6 +28,6 @@ def search():
 
     # Extract relevant information from search results
     hits = res['hits']['hits']
-    suggestions = [{'name': hit['_source']['recipient_name']} for hit in hits]
+    suggestions = [{'name': hit['_source']['Covered_Recipient_First_Name']} for hit in hits]
 
     return jsonify(suggestions)

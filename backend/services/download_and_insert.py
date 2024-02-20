@@ -3,7 +3,7 @@ import requests
 import psycopg2
 from psycopg2 import extras
 from elasticsearch import helpers
-from app.backend.services.get_db_connection import get_db_connection
+from services.get_db_connection import get_db_connection
 
 
 # Define the batch size for processing

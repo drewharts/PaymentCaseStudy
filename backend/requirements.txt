@@ -7,3 +7,4 @@ requests>=2.25.1
 Flask-SQLAlchemy
 psycopg2-binary==2.9.3
 python-dotenv
+flask-cors

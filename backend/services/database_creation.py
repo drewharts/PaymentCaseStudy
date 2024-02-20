@@ -3,7 +3,7 @@ import requests
 from io import StringIO
 import psycopg2
 import os
-from app.backend.services.get_db_connection import get_db_connection
+from services.get_db_connection import get_db_connection
 
 """
 Connect to default "postgres" database and check if payments database exists. If it doesn't, then create it.
