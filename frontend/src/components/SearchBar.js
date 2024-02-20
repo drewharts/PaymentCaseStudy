@@ -11,9 +11,9 @@ const SearchBar = () => {
   const fetchSearchSuggestions = async (query) => {
     try {
       console.log('Fetching suggestions for query:', query);
-      const response = await axios.get(`http://localhost:8000/search?query=${query}`);
+      const response = await axios.get(`http://localhost:8000/search/elasticsearch?query=${query}`);
       console.log('Response:', response.data);
-      setSuggestions(response.data); // Assume the response directly provides suggestions
+      setSuggestions(response.data);
     } catch (error) {
       console.error('Error fetching suggestions:', error);
     }
@@ -43,7 +43,6 @@ const SearchBar = () => {
     >
       <Typography variant='h4' component='h1' sx={{ mb: 4 }}>Payments</Typography>
       
-      {/* Stack for horizontal layout */}
       <Stack direction="row" spacing={2} alignItems="center" sx={{ width: '50%', mb: 2 }}>
         <TextField
           label="Search payment"
@@ -51,10 +50,10 @@ const SearchBar = () => {
           onChange={handleInputChange}
           fullWidth // TextField takes the full width
         />
-        <ExportButton selectedId={selectedId} />
+        {selectedId && <ExportButton selectedId={selectedId} />}
+
       </Stack>
 
-      {/* Conditional rendering based on suggestions.length */}
       {suggestions.length > 0 && (
         <Paper sx={{ width: '50%', maxHeight: 300, overflow: 'auto', mt: 2 }}>
           <List>

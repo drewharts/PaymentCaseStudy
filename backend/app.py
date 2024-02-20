@@ -5,6 +5,7 @@ from services.database_creation import check_or_create_database
 from services.download_and_insert import download_and_batch_insert
 from services.search_indexing import create_elasticsearch_index
 from routes.search import search_bp
+from routes.getsql import getsql_bp
 from dotenv import load_dotenv
 import os
 from elasticsearch import Elasticsearch
@@ -17,10 +18,11 @@ from flask_cors import CORS
 
 def create_app():
     load_dotenv()
-    app = Flask(__name__, template_folder='frontend/templates')
+    app = Flask(__name__, template_folder='templates')
 
     # Register the search blueprint
-    app.register_blueprint(search_bp, url_prefix='/')
+    app.register_blueprint(search_bp,url_prefix='/search')
+    app.register_blueprint(getsql_bp,url_prefix='/data')
 
     CORS(app)
     #Elastic Search Client

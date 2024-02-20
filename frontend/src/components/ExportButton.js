@@ -8,13 +8,15 @@ import DownloadIcon from '@mui/icons-material/Download';
 
 const ExportButton = ({ selectedId }) => {
   const fetchDetailsAndExport = async () => {
+    // making sure selected ID is correct
+    console.log('Selected ID:', selectedId);
     try {
-      const response = await axios.get(`http://localhost:8000/get-details?id=${selectedId}`);
+      const response = await axios.get(`http://localhost:8000/data/get-details?id=${selectedId}`);
       const details = response.data;
       const ws = XLSX.utils.json_to_sheet(details);
       const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, "DetailedData");
-      XLSX.writeFile(wb, "DetailedData.xlsx");
+      XLSX.utils.book_append_sheet(wb, ws, "PaymentData");
+      XLSX.writeFile(wb, "PaymentData.xlsx");
     } catch (error) {
       console.error('Error fetching details:', error);
     }
