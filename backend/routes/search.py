@@ -29,6 +29,7 @@ def search():
     hits = res['hits']['hits']
     suggestions = [{
         'first_name': hit['_source'].get('Covered_Recipient_First_Name', 'N/A'),  # Using .get for safe access
+        'middle_name': hit['_source'].get('Covered_Recipient_Middle_Name', 'N/A'),
         'last_name': hit['_source'].get('Covered_Recipient_Last_Name', 'N/A'),
         'hospital_name': hit['_source'].get('Total_Amount_of_Payment_USDollars', 'N/A')
     } for hit in hits]
