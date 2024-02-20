@@ -21,7 +21,7 @@ def check_or_create_database():
         if not database_exists:
             cursor.execute("CREATE DATABASE payments;")
             print("Database 'payments' created successfully.")
-            execute_sql_schema('app/backend/models/payment_model.sql')
+            execute_sql_schema('models/payment_model.sql')
             return False
 
         else:

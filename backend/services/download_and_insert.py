@@ -7,8 +7,8 @@ from services.get_db_connection import get_db_connection
 
 
 # Define the batch size for processing
-BATCH_SIZE = 1
-MAX_ROWS_FOR_TESTING = 10
+BATCH_SIZE = 100
+MAX_ROWS_FOR_TESTING = 10000
 
 # Placeholder for column length constraints
 COLUMN_LENGTHS = {
