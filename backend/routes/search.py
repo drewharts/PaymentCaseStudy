@@ -20,7 +20,7 @@ def search():
                 "multi_match": {
                     "query": query,
                     "type": "best_fields",
-                    "fields": ["*"]  # Match on all fields
+                    "fields": ["*"]
                 }
             }
         }
